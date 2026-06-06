@@ -13,22 +13,22 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Free 1:1 Digital Marketing Consultation",
+  title: "Free 1:1 Digital Marketing Consultation for Nepal Businesses",
   description:
-    "Get a clear marketing plan to grow your business and get more customer inquiries. Book a free 1:1 consultation and receive a customized marketing strategy.",
+    "Book a free 1:1 digital marketing consultation call and get a customized marketing plan for your Nepal-based business.",
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"),
   openGraph: {
-    title: "Free 1:1 Digital Marketing Consultation",
+    title: "Free 1:1 Digital Marketing Consultation for Nepal Businesses",
     description:
-      "Get a clear marketing plan to grow your business and get more customer inquiries.",
+      "Get a customized digital marketing plan to grow leads, customers, and sales.",
     type: "website",
     images: [{ url: "/logo.png", alt: "Logo" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Free 1:1 Digital Marketing Consultation",
+    title: "Free 1:1 Digital Marketing Consultation for Nepal Businesses",
     description:
-      "Get a clear marketing plan to grow your business and get more customer inquiries.",
+      "Get a customized digital marketing plan to grow leads, customers, and sales.",
     images: ["/logo.png"],
   },
 };

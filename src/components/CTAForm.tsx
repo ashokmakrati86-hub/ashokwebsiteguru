@@ -1,219 +1,1054 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useRef } from "react";
 
-type FormValues = {
-  fullName: string;
-  email: string;
-  whatsapp: string;
-  businessName: string;
-  websiteOrFacebook: string;
-  message: string;
-};
-
-type FormErrors = Partial<Record<keyof FormValues, string>>;
-
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-function validate(values: FormValues): FormErrors {
-  const errors: FormErrors = {};
-
-  if (!values.fullName.trim()) errors.fullName = "Full Name is required.";
-  if (!values.email.trim()) errors.email = "Active Email is required.";
-  else if (!emailRegex.test(values.email.trim()))
-    errors.email = "Enter a valid email address.";
-
-  if (!values.whatsapp.trim())
-    errors.whatsapp = "WhatsApp Number is required.";
-  if (!values.businessName.trim())
-    errors.businessName = "Business Name is required.";
-
-  return errors;
-}
-
-export default function CTAForm() {
-  const router = useRouter();
-  const [values, setValues] = useState<FormValues>({
-    fullName: "",
-    email: "",
-    whatsapp: "",
-    businessName: "",
-    websiteOrFacebook: "",
-    message: "",
-  });
-  const [touched, setTouched] = useState<Partial<Record<keyof FormValues, boolean>>>(
-    {}
-  );
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submitting, setSubmitting] = useState(false);
-
-  function setField<K extends keyof FormValues>(key: K, value: FormValues[K]) {
-    setValues((prev) => ({ ...prev, [key]: value }));
+const FLODESK_EMBED_HTML = String.raw`<link rel="preload" href="https://assets.flodesk.com/flodesk-sans.css" as="style">
+<link rel="stylesheet" href="https://assets.flodesk.com/flodesk-sans.css">
+<style>
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 *,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 *::before,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 *::after {
+    box-sizing: border-box;
   }
 
-  function onBlur<K extends keyof FormValues>(key: K) {
-    setTouched((prev) => ({ ...prev, [key]: true }));
-    setErrors(validate(values));
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [tabindex="-1"]:focus {
+    outline: none !important;
   }
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-
-    setTouched({
-      fullName: true,
-      email: true,
-      whatsapp: true,
-      businessName: true,
-      websiteOrFacebook: true,
-      message: true,
-    });
-
-    const nowErrors = validate(values);
-    setErrors(nowErrors);
-    if (Object.keys(nowErrors).length > 0) return;
-
-    setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 500));
-    router.push("/thank-you");
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h1,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h2,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h3,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h4,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h5,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 h6 {
+    margin-top: 0;
+    margin-bottom: 0.7em;
   }
 
-  return (
-    <section id="booking" className="pb-16">
-      <div className="mx-auto w-full max-w-5xl px-4 sm:px-6">
-        <div className="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ol,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ul,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 dl {
+    margin-top: 0;
+    margin-bottom: 1.4rem;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ol ol,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ul ul,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ol ul,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ul ol {
+    margin-bottom: 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 b,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 strong {
+    font-weight: bolder;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 small {
+    font-size: 80%;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 sub,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 sup {
+    position: relative;
+    font-size: 75%;
+    line-height: 0;
+    vertical-align: baseline;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 sub {
+    bottom: -0.25em;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 sup {
+    top: -0.5em;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 {
+    color: #000000;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 a:hover {
+    color: #4396fd;
+    text-decoration: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 img {
+    border-style: none;
+    vertical-align: middle;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 svg:not(:root) {
+    overflow: hidden;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 area,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [role="button"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 label,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 select,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 summary,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 textarea {
+    touch-action: manipulation;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 label {
+    display: inline-block;
+    font-weight: bolder;
+    margin-bottom: 0.7rem;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button:focus {
+    outline: 1px dotted;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 select,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 optgroup,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 textarea {
+    margin: 0;
+    font-size: inherit;
+    font-family: inherit;
+    line-height: inherit;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input {
+    overflow: visible;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 select {
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button,
+  html[data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="button"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="reset"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="submit"] {
+    -webkit-appearance: button;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 button::-moz-focus-inner,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="button"]::-moz-focus-inner,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="reset"]::-moz-focus-inner,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="submit"]::-moz-focus-inner {
+    padding: 0;
+    border-style: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="radio"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="checkbox"] {
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="date"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="time"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="datetime-local"],
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 input[type="month"] {
+    -webkit-appearance: listbox;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 textarea {
+    resize: vertical;
+    overflow: auto;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="number"]::-webkit-inner-spin-button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="number"]::-webkit-outer-spin-button {
+    height: auto;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="search"] {
+    outline-offset: -2px;
+    -webkit-appearance: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="search"]::-webkit-search-cancel-button,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 ::-webkit-file-upload-button {
+    font: inherit;
+    -webkit-appearance: button;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 [hidden] {
+    display: none !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-control {
+    width: 100%;
+    display: block;
+    outline: none;
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-control:focus {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-control::placeholder {
+    color: transparent !important;
+    opacity: 0 !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-control:disabled {
+    opacity: 1;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-label {
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-control:not(:placeholder-shown)+.fd-form-label {
+    opacity: 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-description {
+    margin: 5px 0 0 0;
+    font-size: 0.8em;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-feedback {
+    margin: 5px 0 0 0;
+    font-size: 0.8em;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-suggestion {
+    margin: 6px 0 0 0;
+    font-size: 0.9em;
+    text-align: center;
+    word-break: break-word;
+    line-height: 1.4;
+    overflow-wrap: break-word;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-suggestion__link {
+    font: inherit;
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    max-width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    text-align: inherit;
+    transition: text-decoration-color 0.2s ease;
+    word-break: break-word;
+    line-height: inherit;
+    white-space: normal;
+    overflow-wrap: break-word;
+    letter-spacing: inherit;
+    vertical-align: baseline;
+    text-decoration: underline;
+    text-decoration-color: currentColor;
+    text-underline-offset: calc((1lh - 1cap) / 2 - 0.08em - 0.8px);
+    -webkit-text-decoration-skip-ink: none;
+    text-decoration-skip-ink: none;
+    text-decoration-thickness: 0.08em;
+  }
+
+  @media (hover: hover) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-suggestion__link:hover {
+      text-decoration-color: currentColor;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-suggestion__link:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-suggestion__link:focus:not(.fd-focus-visible) {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group {
+    margin: 0 0 15px;
+    position: relative;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-success .fd-form-feedback,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-success .fd-form-check {
+    color: #02dba8 !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-success .fd-form-control {
+    color: #02dba8 !important;
+    border-color: #02dba8 !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-success .fd-form-feedback {
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-error .fd-form-feedback,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-error .fd-form-check {
+    color: #C84E41 !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-error .fd-form-control {
+    color: #C84E41 !important;
+    border-color: #C84E41 !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-group.fd-has-error .fd-form-feedback {
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-btn {
+    cursor: pointer;
+    display: inline-flex;
+    outline: none;
+    max-width: 100%;
+    -webkit-appearance: none;
+    appearance: none;
+    font-style: normal;
+    text-align: center;
+    align-items: center;
+    text-shadow: none;
+    white-space: normal;
+    justify-content: center;
+    text-decoration: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-btn:hover {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-btn:focus {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-btn:disabled {
+    opacity: 0.8;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check {
+    cursor: pointer;
+    margin: 0;
+    display: flex;
+    position: relative;
+    align-items: center;
+    padding-left: 30px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__input {
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    opacity: 0;
+    z-index: -1;
+    position: absolute;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__checkmark {
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    display: block;
+    position: absolute;
+    background-size: 18px;
+    background-image: url("data:image/svg+xml,%3csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg' %3e %3cpath d='M1 4C1 2.34315 2.34315 1 4 1H16C17.6569 1 19 2.34315 19 4V16C19 17.6569 17.6569 19 16 19H4C2.34315 19 1 17.6569 1 16V4Z' fill='white' fill-opacity='1' /%3e %3cpath fill='black' fill-rule='evenodd' clip-rule='evenodd' d='M0.25 4C0.25 1.92893 1.92893 0.25 4 0.25H16C18.0711 0.25 19.75 1.92893 19.75 4V16C19.75 18.0711 18.0711 19.75 16 19.75H4C1.92893 19.75 0.25 18.0711 0.25 16V4ZM4 1.75C2.75736 1.75 1.75 2.75736 1.75 4V16C1.75 17.2426 2.75736 18.25 4 18.25H16C17.2426 18.25 18.25 17.2426 18.25 16V4C18.25 2.75736 17.2426 1.75 16 1.75H4Z' /%3e %3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__label {
+    flex: 1 1;
+    margin: 0;
+    font-size: 14px;
+    text-align: left;
+    word-break: break-word;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__input:checked+.fd-form-check__checkmark::after {
+    opacity: 1;
+    z-index: 1;
+    visibility: visible;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__checkmark::after {
+    top: 0;
+    left: 0;
+    width: 18px;
+    height: 18px;
+    content: "";
+    display: block;
+    opacity: 0;
+    z-index: 1;
+    position: absolute;
+    transition: opacity 0.4s, z-index 0.4s;
+    visibility: inherit;
+    background-size: 12px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='black' width='12' height='10' viewBox='0 0 11.51 8.2' %3e %3ctitle%3echeck%3c/title%3e %3cpath d='M4.05%2c8.2A.74.74%2c0%2c0%2c1%2c3.52%2c8L.22%2c4.68A.75.75%2c0%2c0%2c1%2c1.28%2c3.62l3.3%2c3.3A.75.75%2c0%2c0%2c1%2c4.58%2c8%2c.74.74%2c0%2c0%2c1%2c4.05%2c8.2Z' /%3e %3cpath d='M4.06%2c8.2A.74.74%2c0%2c0%2c1%2c3.53%2c8a.75.75%2c0%2c0%2c1%2c0-1.06l6.7-6.7a.75.75%2c0%2c0%2c1%2c1.06%2c1.06L4.59%2c8A.74.74%2c0%2c0%2c1%2c4.06%2c8.2Z' /%3e %3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__input:focus {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-content {
+    position: relative;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-has-success .fd-form-content {
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-has-captcha .fd-form-content>*:not(.fd-form-captcha) {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-captcha {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-success {
+    width: 100%;
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-has-success .fd-form-success {
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-success>*:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-error {
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-has-error .fd-form-error {
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-error>*:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-focus-visible,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__input.fd-focus-visible+.fd-form-check__checkmark {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 calc(2px + 4px) #000000 !important;
+    transition: box-shadow 0.2s !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-focus-visible,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-check__input.fd-focus-visible+.fd-form-check__checkmark {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 calc(2px + 2px) #717171 !important;
+    transition: box-shadow 0.2s !important;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__container {
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+    max-width: 100%;
+    background: #ffffff;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__wrapper {
+    display: flex;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form {
+    color: #333333;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    letter-spacing: 0.1px;
+    text-transform: none;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form {
+      padding: 25px;
+      word-wrap: anywhere;
+      word-break: break-word;
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__title,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__subtitle {
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7[data-ff-stage="success"] .ff-6a1997f1efd03ccd5e54c1a7__content {
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__fields {
+    margin: 0 0 18px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__fields>*:last-child {
+    margin-bottom: 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__field {
+    font-size: 13px;
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.1px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control {
+    color: #000000;
+    border: 1px solid #d7dee9;
+    height: 46px;
+    padding: 12px 16px;
+    font-size: 14px;
+    background: transparent;
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+    border-radius: 12px;
+    letter-spacing: 0.1px;
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__label {
+    color: #000000;
+    border: 1px solid transparent;
+    padding: 12px 16px;
+    font-size: 14px;
+    text-align: left;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference {
+    margin: 30px 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference {
+      flex-direction: column;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-title {
+    color: #333333;
+    width: 100%;
+    margin: 0 0 30px 0;
+    display: block;
+    font-size: 18px;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0px;
+    text-transform: none;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-title {
+      margin: 0 0 30px;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-title * {
+    line-height: inherit;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-control {
+    width: 100%;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-list {
+    width: 100%;
+    margin: -8px 0;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-list {
+      flex-direction: column;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-item {
+    flex: 1 1;
+    padding: 8px 0;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__preference-item {
+      flex: 1 1;
+      max-width: 100%;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form-check .fd-form-check__input {
+    top: 2.200000000000001px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form-check .fd-form-check__checkmark {
+    top: 2.200000000000001px;
+    border-radius: 4px;
+    background-image: url("data:image/svg+xml,%3csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg' %3e %3cpath d='M1 4C1 2.34315 2.34315 1 4 1H16C17.6569 1 19 2.34315 19 4V16C19 17.6569 17.6569 19 16 19H4C2.34315 19 1 17.6569 1 16V4Z' fill='white' fill-opacity='1' /%3e %3cpath fill='black' fill-rule='evenodd' clip-rule='evenodd' d='M0.25 4C0.25 1.92893 1.92893 0.25 4 0.25H16C18.0711 0.25 19.75 1.92893 19.75 4V16C19.75 18.0711 18.0711 19.75 16 19.75H4C1.92893 19.75 0.25 18.0711 0.25 16V4ZM4 1.75C2.75736 1.75 1.75 2.75736 1.75 4V16C1.75 17.2426 2.75736 18.25 4 18.25H16C17.2426 18.25 18.25 17.2426 18.25 16V4C18.25 2.75736 17.2426 1.75 16 1.75H4Z' /%3e %3c/svg%3e");
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form-check .fd-form-check__label {
+    color: #333333;
+    font-size: 14px;
+    min-height: 22.400000000000002px;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: 0px;
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form-check .fd-form-check__checkmark::after {
+    background-size: 12px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='black' width='12' height='10' viewBox='0 0 11.51 8.2' %3e %3ctitle%3echeck%3c/title%3e %3cpath d='M4.05%2c8.2A.74.74%2c0%2c0%2c1%2c3.52%2c8L.22%2c4.68A.75.75%2c0%2c0%2c1%2c1.28%2c3.62l3.3%2c3.3A.75.75%2c0%2c0%2c1%2c4.58%2c8%2c.74.74%2c0%2c0%2c1%2c4.05%2c8.2Z' /%3e %3cpath d='M4.06%2c8.2A.74.74%2c0%2c0%2c1%2c3.53%2c8a.75.75%2c0%2c0%2c1%2c0-1.06l6.7-6.7a.75.75%2c0%2c0%2c1%2c1.06%2c1.06L4.59%2c8A.74.74%2c0%2c0%2c1%2c4.06%2c8.2Z' /%3e %3c/svg%3e");
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__footer {
+    text-align: center;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
+    color: #ffffff;
+    width: 100%;
+    border: 1px solid transparent;
+    display: inline-block;
+    padding: 14px 20px;
+    font-size: 14px;
+    background: linear-gradient(90deg, #2f6fdd 0%, #15539c 100%);
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 600;
+    line-height: 20px;
+    border-radius: 9999px;
+    letter-spacing: 0.1px;
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button [data-draw-element="editable"] {
+    min-width: 10px;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
+      width: 100%;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button [data-draw-element="editable"]:not([contenteditable]):empty::after {
+    width: 10px;
+    content: "\00a0";
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success {
+    display: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7[data-ff-stage="success"] .ff-6a1997f1efd03ccd5e54c1a7__success {
+    display: block;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success-message {
+    color: #333333;
+    width: 100%;
+    display: block;
+    font-size: 16px;
+    word-wrap: anywhere;
+    min-height: 1.6em;
+    text-align: center;
+    word-break: break-word;
+    font-family: Helvetica, sans-serif;
+    font-weight: 300;
+    line-height: 1.6;
+    white-space: normal;
+    overflow-wrap: break-word;
+    letter-spacing: 0.1px;
+    pointer-events: auto;
+    text-transform: none;
+  }
+
+  @media (max-width: 767px) {
+    [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success-message {
+      font-size: 16px;
+    }
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__error {
+    margin: 15px 0 0 0;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success-message,
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__error {
+    text-align: left;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__accepts-gdpr-block {
+    display: flex;
+    padding: 0px 0;
+    margin-top: 16px;
+    align-items: center;
+    margin-bottom: 24px;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy-toggle-button {
+    color: inherit;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    background: transparent;
+    font-weight: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: underline;
+    text-underline-position: under;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy-toggle-button:focus {
+    outline: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy-not-mandatory {
+    color: #333333;
+    opacity: 0.52;
+    font-size: 14px;
+    margin-top: 16px;
+    min-height: 19.599999999999998px;
+    text-align: center;
+    font-family: Helvetica, sans-serif;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0px;
+    text-transform: none;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy {
+    color: #241A17;
+    font-size: 14px;
+    font-family: FlodeskSans, sans-serif;
+    font-weight: 400;
+    line-height: 20px;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy p {
+    margin-bottom: 0.25rem;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy-link {
+    color: inherit;
+    cursor: pointer;
+    text-underline-position: under;
+  }
+
+  [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__privacy-policy-link:hover {
+    color: inherit;
+    text-decoration: underline;
+  }
+</style>
+
+<div class="ff-6a1997f1efd03ccd5e54c1a7" data-ff-el="root" data-ff-version="3" data-ff-type="inline" data-ff-name="inlineNoImage" data-ff-stage="default">
+  <!--tpl {% block config %} tpl-->
+  <div data-ff-el="config" data-ff-config="eyJ0cmlnZ2VyIjp7Im1vZGUiOiJpbW1lZGlhdGVseSIsInZhbHVlIjowfSwib25TdWNjZXNzIjp7Im1vZGUiOiJtZXNzYWdlIiwibWVzc2FnZSI6IiIsInJlZGlyZWN0VXJsIjoiIn0sImNvaSI6ZmFsc2UsInNob3dGb3JSZXR1cm5WaXNpdG9ycyI6dHJ1ZSwibm90aWZpY2F0aW9uIjpmYWxzZSwiZ2RwciI6eyJhY2NlcHRzTWFya2V0aW5nIjpmYWxzZSwicHJpdmFjeVBvbGljeSI6eyJlbmFibGVkIjpmYWxzZSwibWFuZGF0b3J5IjpmYWxzZX19LCJ0cmFja2luZ0NvbmZpZyI6eyJtZXRhUGl4ZWxJZCI6IiIsImNvb2tpZUJhbm5lckVuYWJsZWQiOmZhbHNlLCJnb29nbGVBbmFseXRpY3NJZCI6IiJ9fQ==" style="display: none"></div>
+  <!--tpl {% endblock %} tpl-->
+  <div class="ff-6a1997f1efd03ccd5e54c1a7__container">
+    <div class="ff-6a1997f1efd03ccd5e54c1a7__wrapper">
+      <form class="ff-6a1997f1efd03ccd5e54c1a7__form" action="https://form.flodesk.com/forms/6a1997f1efd03ccd5e54c1a7/submit" method="post" data-ff-el="form">
+        <div class="ff-6a1997f1efd03ccd5e54c1a7__title">
+          <div style="word-break:break-word">
+            <div data-paragraph="true">Free 1:1 consultation call</div>
+          </div>
+        </div>
+        <div class="ff-6a1997f1efd03ccd5e54c1a7__subtitle">
+          <div style="word-break:break-word">
+            <div data-paragraph="true">Book a free consultation call with me and get a customize marketing strategy for your business&nbsp;</div>
+          </div>
+        </div>
+        <div class="ff-6a1997f1efd03ccd5e54c1a7__content fd-form-content" data-ff-el="content">
+          <div class="ff-6a1997f1efd03ccd5e54c1a7__fields" data-ff-el="fields">
+            <!--tpl {% block fields %} tpl-->
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-email" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="email" placeholder="Email address" data-ff-tab="email::firstName" required />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-email" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>Email address</div>
+                </div>
+              </label>
+            </div>
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-firstName" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="firstName" placeholder="First name" data-ff-tab="firstName:email:lastName" />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-firstName" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>First name</div>
+                </div>
+              </label>
+            </div>
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-lastName" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="lastName" placeholder="Last name" data-ff-tab="lastName:firstName:fields." />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-lastName" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>Last name</div>
+                </div>
+              </label>
+            </div>
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-JSV34p5HB5" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="fields." placeholder="Whats app number" data-ff-tab="fields.:lastName:fields.businessName" required />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-JSV34p5HB5" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>Whats app number</div>
+                </div>
+              </label>
+            </div>
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-H5DWTdWttk" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="fields.businessName" placeholder="Business name" data-ff-tab="fields.businessName:fields.:fields.facebookOrWebsitePageLink" required />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-H5DWTdWttk" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>Business name</div>
+                </div>
+              </label>
+            </div>
+            <div class="ff-6a1997f1efd03ccd5e54c1a7__field fd-form-group">
+              <input id="ff-6a1997f1efd03ccd5e54c1a7-w9l0CD22jb" class="ff-6a1997f1efd03ccd5e54c1a7__control fd-form-control" type="text" maxlength="255" name="fields.facebookOrWebsitePageLink" placeholder="Facebook or Website page link" data-ff-tab="fields.facebookOrWebsitePageLink:fields.businessName:submit" required />
+              <label for="ff-6a1997f1efd03ccd5e54c1a7-w9l0CD22jb" class="ff-6a1997f1efd03ccd5e54c1a7__label fd-form-label">
+                <div>
+                  <div>Facebook or Website page link</div>
+                </div>
+              </label>
+            </div>
+            <input type="text" maxlength="255" name="confirm_email_address" style="display: none" />
+            <!--tpl {% endblock %} tpl-->
+          </div>
+          <div class="ff-6a1997f1efd03ccd5e54c1a7__footer" data-ff-el="footer">
+            <button type="submit" class="ff-6a1997f1efd03ccd5e54c1a7__button fd-btn" data-ff-el="submit" data-ff-tab="submit">
+              <div><span data-draw-element="editable">Subscribe</span></div>
+            </button>
+          </div>
+        </div>
+        <div class="ff-6a1997f1efd03ccd5e54c1a7__success fd-form-success" data-ff-el="success">
+          <div class="ff-6a1997f1efd03ccd5e54c1a7__success-message">
             <div>
-              <h2 className="text-2xl font-semibold tracking-tight text-zinc-950 sm:text-3xl">
-                Book Your Free 1:1 Consultation
-              </h2>
-              <p className="mt-3 text-base leading-7 text-zinc-700">
-                Get a customized strategy designed for your business goals,
-                problems, and growth stage.
-              </p>
-              <div className="mt-6 rounded-2xl bg-zinc-50 p-5">
-                <p className="text-sm font-semibold text-zinc-950">Short Description</p>
-                <p className="mt-2 text-sm leading-6 text-zinc-700">
-                  You will get a customized marketing strategy based on your business,
-                  current situation, and goals.
-                </p>
+              <div>
+                <div data-paragraph="true">Thank you for subscribing!</div>
               </div>
             </div>
-
-            <form onSubmit={onSubmit} className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  Full Name
-                </label>
-                <input
-                  value={values.fullName}
-                  onChange={(e) => setField("fullName", e.target.value)}
-                  onBlur={() => onBlur("fullName")}
-                  required
-                  placeholder="Your full name"
-                  className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none ring-0 placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-                {touched.fullName && errors.fullName ? (
-                  <p className="mt-1 text-xs text-red-600">{errors.fullName}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  Active Email
-                </label>
-                <input
-                  value={values.email}
-                  onChange={(e) => setField("email", e.target.value)}
-                  onBlur={() => onBlur("email")}
-                  required
-                  type="email"
-                  inputMode="email"
-                  placeholder="name@email.com"
-                  className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-                {touched.email && errors.email ? (
-                  <p className="mt-1 text-xs text-red-600">{errors.email}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  WhatsApp Number
-                </label>
-                <input
-                  value={values.whatsapp}
-                  onChange={(e) => setField("whatsapp", e.target.value)}
-                  onBlur={() => onBlur("whatsapp")}
-                  required
-                  inputMode="tel"
-                  placeholder="Your WhatsApp number"
-                  className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-                {touched.whatsapp && errors.whatsapp ? (
-                  <p className="mt-1 text-xs text-red-600">{errors.whatsapp}</p>
-                ) : null}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  Business Name
-                </label>
-                <input
-                  value={values.businessName}
-                  onChange={(e) => setField("businessName", e.target.value)}
-                  onBlur={() => onBlur("businessName")}
-                  required
-                  placeholder="Your business name"
-                  className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-                {touched.businessName && errors.businessName ? (
-                  <p className="mt-1 text-xs text-red-600">
-                    {errors.businessName}
-                  </p>
-                ) : null}
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  Website / Facebook URL
-                </label>
-                <input
-                  value={values.websiteOrFacebook}
-                  onChange={(e) => setField("websiteOrFacebook", e.target.value)}
-                  onBlur={() => onBlur("websiteOrFacebook")}
-                  placeholder="https://"
-                  className="mt-1 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-              </div>
-
-              <div>
-                <label className="text-sm font-medium text-zinc-900">
-                  Anything you want to say
-                </label>
-                <textarea
-                  value={values.message}
-                  onChange={(e) => setField("message", e.target.value)}
-                  onBlur={() => onBlur("message")}
-                  placeholder="Tell me about your business and current situation..."
-                  rows={4}
-                  className="mt-1 w-full resize-none rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm text-zinc-950 outline-none placeholder:text-zinc-400 focus:border-[var(--brand)] focus:ring-2 focus:ring-[var(--brand)]"
-                />
-              </div>
-
-              <p className="text-xs text-zinc-600">
-                We respect your privacy. No spam.
-              </p>
-
-              <button
-                type="submit"
-                disabled={submitting}
-                className="inline-flex h-12 w-full items-center justify-center rounded-full bg-[var(--brand)] px-7 text-base font-semibold text-white shadow-sm hover:bg-[var(--brand-hover)] disabled:cursor-not-allowed disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-[var(--brand)] focus:ring-offset-2"
-              >
-                {submitting ? "Submitting..." : "Book Free Consultation"}
-              </button>
-            </form>
           </div>
+        </div>
+        <div class="ff-6a1997f1efd03ccd5e54c1a7__error fd-form-error" data-ff-el="error"></div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  (function(w, d, t, h, s, n) {
+    w.FlodeskObject = n;
+    var fn = function() {
+      (w[n].q = w[n].q || []).push(arguments);
+    };
+    w[n] = w[n] || fn;
+    var f = d.getElementsByTagName(t)[0];
+    var v = '?v=' + Math.floor(new Date().getTime() / (120 * 1000)) * 60;
+    var sm = d.createElement(t);
+    sm.async = true;
+    sm.type = 'module';
+    sm.src = h + s + '.mjs' + v;
+    f.parentNode.insertBefore(sm, f);
+    var sn = d.createElement(t);
+    sn.async = true;
+    sn.noModule = true;
+    sn.src = h + s + '.js' + v;
+    f.parentNode.insertBefore(sn, f);
+  })(window, document, 'script', 'https://assets.flodesk.com', '/universal', 'fd');
+</script>
+<script>
+  window.fd('form:handle', {
+    formId: '6a1997f1efd03ccd5e54c1a7',
+    rootEl: '.ff-6a1997f1efd03ccd5e54c1a7',
+  });
+</script>`;
+
+export default function CTAForm() {
+  const mountRef = useRef<HTMLDivElement | null>(null);
+  const redirectTimerRef = useRef<number | null>(null);
+  const redirectPollRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    const mount = mountRef.current;
+    if (!mount) return;
+
+    mount.innerHTML = FLODESK_EMBED_HTML;
+
+    const head = document.head;
+    const preloadHref = "https://assets.flodesk.com/flodesk-sans.css";
+    if (!head.querySelector(`link[rel="preload"][href="${preloadHref}"]`)) {
+      const preload = document.createElement("link");
+      preload.rel = "preload";
+      preload.as = "style";
+      preload.href = preloadHref;
+      head.appendChild(preload);
+    }
+
+    if (!head.querySelector(`link[rel="stylesheet"][href="${preloadHref}"]`)) {
+      const stylesheet = document.createElement("link");
+      stylesheet.rel = "stylesheet";
+      stylesheet.href = preloadHref;
+      head.appendChild(stylesheet);
+    }
+
+    const scripts = Array.from(mount.querySelectorAll("script"));
+    for (const oldScript of scripts) {
+      const nextScript = document.createElement("script");
+      for (const attribute of Array.from(oldScript.attributes)) {
+        nextScript.setAttribute(attribute.name, attribute.value);
+      }
+      if (oldScript.src) {
+        nextScript.src = oldScript.src;
+      } else {
+        nextScript.textContent = oldScript.textContent ?? "";
+      }
+      oldScript.replaceWith(nextScript);
+    }
+
+    const root = mount.querySelector('[data-ff-el="root"]') as HTMLElement | null;
+    if (!root) return;
+
+    const redirect = () => {
+      if (redirectTimerRef.current !== null) return;
+
+      const stage = root.getAttribute("data-ff-stage");
+      const successEl = root.querySelector('[data-ff-el="success"]') as HTMLElement | null;
+      const successVisible =
+        successEl !== null &&
+        window.getComputedStyle(successEl).display !== "none" &&
+        window.getComputedStyle(successEl).visibility !== "hidden" &&
+        successEl.getBoundingClientRect().height > 0;
+      const hasSuccess =
+        stage === "success" || root.classList.contains("fd-has-success") || successVisible;
+      if (!hasSuccess) return;
+
+      redirectTimerRef.current = window.setTimeout(() => {
+        window.location.assign("/thanks");
+      }, 15000);
+    };
+
+    redirect();
+
+    const observer = new MutationObserver(redirect);
+    observer.observe(root, {
+      attributes: true,
+      attributeFilter: ["data-ff-stage", "class", "style"],
+      childList: true,
+      subtree: true,
+    });
+
+    redirectPollRef.current = window.setInterval(redirect, 500);
+
+    return () => {
+      observer.disconnect();
+      if (redirectPollRef.current !== null) {
+        window.clearInterval(redirectPollRef.current);
+        redirectPollRef.current = null;
+      }
+      if (redirectTimerRef.current !== null) {
+        window.clearTimeout(redirectTimerRef.current);
+        redirectTimerRef.current = null;
+      }
+    };
+  }, []);
+
+  return (
+    <section
+      id="booking"
+      className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-14 sm:px-6 sm:py-20"
+    >
+      <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+        <div className="relative">
+          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
+            Final Step
+          </p>
+          <h2 className="mt-4 max-w-sm text-3xl font-semibold leading-tight text-zinc-950 sm:text-4xl">
+            Book Your FREE 1:1 Consultation Call
+          </h2>
+          <p className="mt-5 max-w-sm text-sm leading-7 text-zinc-600">
+            Fill up the form below and we will contact you with the next steps.
+          </p>
+
+          <div className="mt-8 max-w-sm rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-200/70">
+            <p className="text-sm font-semibold text-zinc-950">
+              What happens next?
+            </p>
+            <p className="mt-3 text-sm leading-6 text-zinc-600">
+              I will review your details, understand your business situation,
+              and guide you toward the right appointment step.
+            </p>
+          </div>
+        </div>
+
+        <div className="rounded-[2rem] bg-white/60 p-4 shadow-2xl shadow-sky-950/10 ring-1 ring-white/80 backdrop-blur sm:p-8">
+          <div ref={mountRef} className="overflow-hidden rounded-[1.5rem]" />
         </div>
       </div>
     </section>

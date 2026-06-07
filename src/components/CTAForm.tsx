@@ -73,9 +73,9 @@ export default function CTAForm() {
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control {
             background: #ffffff;
-            border-color: #dbe6f3;
-            height: 52px;
-            font-size: 14px;
+            border-color: #d5dff0;
+            height: 56px;
+            font-size: 15px;
             color: #0f172a;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
           }
@@ -95,7 +95,7 @@ export default function CTAForm() {
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
             width: 100%;
-            height: 52px;
+            height: 58px;
             font-size: 15px;
             font-weight: 700;
             border: none;
@@ -140,33 +140,33 @@ export default function CTAForm() {
   return (
     <section
       id="booking"
-      className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-14 sm:px-6 sm:py-20"
+      className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-16 sm:px-6 sm:py-24"
     >
-      <div className="mx-auto grid w-full max-w-6xl gap-10 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-        <div className="relative">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <div className="relative lg:pt-6">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
             Final Step
           </p>
-          <h2 className="mt-4 max-w-sm text-3xl font-semibold leading-tight text-zinc-950 sm:text-4xl">
+          <h2 className="mt-4 max-w-[22rem] text-[2.25rem] font-semibold leading-tight text-zinc-950 sm:text-5xl">
             Book Your FREE 1:1 Consultation Call
           </h2>
-          <p className="mt-5 max-w-sm text-sm leading-7 text-zinc-600">
+          <p className="mt-6 max-w-[30rem] text-base leading-8 text-zinc-600">
             Fill up the form below and we will contact you with the next steps.
           </p>
 
-          <div className="mt-8 max-w-sm rounded-2xl bg-white p-5 shadow-sm ring-1 ring-zinc-200/70">
-            <p className="text-sm font-semibold text-zinc-950">
+          <div className="mt-8 max-w-[32rem] rounded-[1.6rem] bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)] ring-1 ring-zinc-200/70">
+            <p className="text-base font-semibold text-zinc-950">
               What happens next?
             </p>
-            <p className="mt-3 text-sm leading-6 text-zinc-600">
+            <p className="mt-4 text-base leading-8 text-zinc-600">
               I will review your details, understand your business situation,
               and guide you toward the right appointment step.
             </p>
           </div>
         </div>
 
-        <div className="rounded-[2rem] bg-white/60 p-4 shadow-2xl shadow-sky-950/10 ring-1 ring-white/80 backdrop-blur sm:p-8">
-          <div className="rounded-[1.5rem] bg-white p-4 shadow-sm ring-1 ring-zinc-200/70 sm:p-6">
+        <div className="rounded-[2.4rem] bg-white/70 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur sm:p-8">
+          <div className="rounded-[1.9rem] bg-white p-5 shadow-sm ring-1 ring-zinc-200/70 sm:p-8">
             <div ref={mountRef} className="overflow-hidden" />
             <p className="mt-4 text-center text-xs text-zinc-500">
               We respect your privacy. No spam.

@@ -35,6 +35,86 @@ export default function CTAForm() {
         head.appendChild(stylesheet);
       }
 
+      const styleId = "flodesk-embed-overrides";
+      const existingStyle = document.getElementById(styleId);
+      if (!existingStyle) {
+        const style = document.createElement("style");
+        style.id = styleId;
+        style.textContent = `
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__container {
+            max-width: 100%;
+            background: transparent;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form {
+            padding: 0;
+            text-align: left;
+            color: #0f172a;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__title,
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__subtitle,
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__error {
+            display: none !important;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__fields {
+            margin-bottom: 18px;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__field {
+            margin-bottom: 14px;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control,
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
+            border-radius: 16px;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control {
+            background: #ffffff;
+            border-color: #dbe6f3;
+            height: 52px;
+            font-size: 14px;
+            color: #0f172a;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-label {
+            display: none !important;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__footer {
+            margin-top: 10px;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
+            width: 100%;
+            height: 52px;
+            font-size: 15px;
+            font-weight: 700;
+            border: none;
+            background: linear-gradient(135deg, #2690c6 0%, #1f78a5 100%);
+            box-shadow: 0 12px 30px rgba(38, 144, 198, 0.22);
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success {
+            padding: 24px 0;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success-message {
+            color: #0f172a;
+            font-size: 15px;
+          }
+        `;
+        head.appendChild(style);
+      }
+
       const scripts = Array.from(mount.querySelectorAll("script"));
       for (const oldScript of scripts) {
         const nextScript = document.createElement("script");
@@ -86,7 +166,12 @@ export default function CTAForm() {
         </div>
 
         <div className="rounded-[2rem] bg-white/60 p-4 shadow-2xl shadow-sky-950/10 ring-1 ring-white/80 backdrop-blur sm:p-8">
-          <div ref={mountRef} className="overflow-hidden rounded-[1.5rem]" />
+          <div className="rounded-[1.5rem] bg-white p-4 shadow-sm ring-1 ring-zinc-200/70 sm:p-6">
+            <div ref={mountRef} className="overflow-hidden" />
+            <p className="mt-4 text-center text-xs text-zinc-500">
+              We respect your privacy. No spam.
+            </p>
+          </div>
         </div>
       </div>
     </section>

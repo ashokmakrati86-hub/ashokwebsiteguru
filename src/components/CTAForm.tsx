@@ -42,14 +42,14 @@ export default function CTAForm() {
         style.id = styleId;
         style.textContent = `
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__container {
-            max-width: 100%;
-            background: transparent;
+            max-width: 100% !important;
+            background: transparent !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__form {
-            padding: 4px 0 0;
-            text-align: left;
-            color: #0f172a;
+            padding: 0 !important;
+            text-align: left !important;
+            color: #0f172a !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__title,
@@ -59,11 +59,11 @@ export default function CTAForm() {
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__fields {
-            margin-bottom: 20px;
+            margin-bottom: 18px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__field {
-            margin-bottom: 16px;
+            margin-bottom: 14px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control,
@@ -72,14 +72,15 @@ export default function CTAForm() {
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control {
-            background: #ffffff;
-            border-color: #d8e2f1;
-            height: 60px;
-            font-size: 16px;
-            color: #0f172a;
-            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-            padding-left: 20px;
-            padding-right: 20px;
+            background: #ffffff !important;
+            border-color: #d5dff0 !important;
+            height: 56px !important;
+            font-size: 15px !important;
+            color: #0f172a !important;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+            padding-left: 20px !important;
+            padding-right: 20px !important;
+            border-radius: 16px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control::placeholder {
@@ -92,17 +93,19 @@ export default function CTAForm() {
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__footer {
-            margin-top: 14px;
+            margin-top: 10px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
-            width: 100%;
-            height: 66px;
-            font-size: 16px;
-            font-weight: 700;
-            border: none;
-            background: linear-gradient(135deg, #2690c6 0%, #1f78a5 100%);
-            box-shadow: 0 12px 30px rgba(38, 144, 198, 0.22);
+            width: 100% !important;
+            height: 58px !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            border: none !important;
+            border-radius: 16px !important;
+            color: #ffffff !important;
+            background: linear-gradient(135deg, #2690c6 0%, #1f78a5 100%) !important;
+            box-shadow: 0 12px 30px rgba(38, 144, 198, 0.22) !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__success {
@@ -144,15 +147,15 @@ export default function CTAForm() {
       id="booking"
       className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-16 sm:px-6 sm:py-24"
     >
-      <div className="mx-auto grid w-full max-w-[1450px] gap-12 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
-        <div className="relative pt-4 lg:pt-[92px]">
+      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
+        <div className="relative lg:pt-6">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
             Final Step
           </p>
-          <h2 className="mt-6 max-w-[24rem] text-[2.2rem] font-semibold leading-tight text-zinc-950 sm:text-[3.25rem]">
+          <h2 className="mt-4 max-w-[22rem] text-[2.25rem] font-semibold leading-tight text-zinc-950 sm:text-5xl">
             Book Your FREE 1:1 Consultation Call
           </h2>
-          <p className="mt-7 max-w-[31rem] text-[1.02rem] leading-8 text-zinc-600">
+          <p className="mt-6 max-w-[30rem] text-base leading-8 text-zinc-600">
             Fill up the form below and we will contact you with the next steps.
           </p>
 
@@ -167,8 +170,8 @@ export default function CTAForm() {
           </div>
         </div>
 
-        <div className="rounded-[2.6rem] bg-white/70 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur sm:p-8">
-          <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-zinc-200/70 sm:p-10">
+        <div className="rounded-[2.4rem] bg-white/70 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur sm:p-8">
+          <div className="rounded-[1.9rem] bg-white p-5 shadow-sm ring-1 ring-zinc-200/70 sm:p-8">
             <div ref={mountRef} className="overflow-hidden" />
             <p className="mt-4 text-center text-xs text-zinc-500">
               We respect your privacy. No spam.

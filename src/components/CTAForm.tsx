@@ -90,7 +90,21 @@ export default function CTAForm() {
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .fd-form-label {
-            display: none !important;
+            display: block !important;
+            position: static !important;
+            margin: 0 0 8px !important;
+            padding: 0 !important;
+            overflow: visible !important;
+            white-space: normal !important;
+            text-overflow: clip !important;
+            color: #0f172a !important;
+            font-size: 15px !important;
+            line-height: 1.3 !important;
+            font-weight: 500 !important;
+          }
+
+          [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__field {
+            position: relative !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__footer {

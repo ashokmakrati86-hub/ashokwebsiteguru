@@ -50,6 +50,7 @@ export default function CTAForm() {
             padding: 0 !important;
             text-align: left !important;
             color: #0f172a !important;
+            width: 100% !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__title,
@@ -59,11 +60,11 @@ export default function CTAForm() {
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__fields {
-            margin-bottom: 18px !important;
+            margin-bottom: 20px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__field {
-            margin-bottom: 14px !important;
+            margin-bottom: 15px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control,
@@ -73,14 +74,14 @@ export default function CTAForm() {
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control {
             background: #ffffff !important;
-            border-color: #d5dff0 !important;
-            height: 56px !important;
+            border-color: #d7dfef !important;
+            height: 54px !important;
             font-size: 15px !important;
             color: #0f172a !important;
             box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
             padding-left: 20px !important;
             padding-right: 20px !important;
-            border-radius: 16px !important;
+            border-radius: 14px !important;
           }
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__control::placeholder {
@@ -98,11 +99,11 @@ export default function CTAForm() {
 
           [data-ff-el="root"].ff-6a1997f1efd03ccd5e54c1a7 .ff-6a1997f1efd03ccd5e54c1a7__button {
             width: 100% !important;
-            height: 58px !important;
+            height: 68px !important;
             font-size: 15px !important;
             font-weight: 700 !important;
             border: none !important;
-            border-radius: 16px !important;
+            border-radius: 9999px !important;
             color: #ffffff !important;
             background: linear-gradient(135deg, #2690c6 0%, #1f78a5 100%) !important;
             box-shadow: 0 12px 30px rgba(38, 144, 198, 0.22) !important;
@@ -145,21 +146,21 @@ export default function CTAForm() {
   return (
     <section
       id="booking"
-      className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-16 sm:px-6 sm:py-24"
+      className="bg-gradient-to-br from-[#eef5ff] via-white to-[#edf6ff] px-4 py-[4.5rem] sm:px-6 sm:py-24"
     >
-      <div className="mx-auto grid w-full max-w-7xl gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:items-center">
-        <div className="relative lg:pt-6">
+      <div className="mx-auto grid w-full max-w-[1500px] gap-14 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+        <div className="relative pt-6 lg:pt-[74px]">
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--brand)]">
             Final Step
           </p>
-          <h2 className="mt-4 max-w-[22rem] text-[2.25rem] font-semibold leading-tight text-zinc-950 sm:text-5xl">
+          <h2 className="mt-4 max-w-[15rem] text-[2.05rem] font-semibold leading-tight text-zinc-950 sm:text-[3.45rem]">
             Book Your FREE 1:1 Consultation Call
           </h2>
-          <p className="mt-6 max-w-[30rem] text-base leading-8 text-zinc-600">
+          <p className="mt-7 max-w-[25rem] text-[0.98rem] leading-8 text-zinc-600">
             Fill up the form below and we will contact you with the next steps.
           </p>
 
-          <div className="mt-8 max-w-[32rem] rounded-[1.6rem] bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)] ring-1 ring-zinc-200/70">
+          <div className="mt-8 max-w-[31.5rem] rounded-[1.6rem] bg-white p-6 shadow-[0_12px_30px_rgba(15,23,42,0.06)] ring-1 ring-zinc-200/70">
             <p className="text-base font-semibold text-zinc-950">
               What happens next?
             </p>
@@ -170,10 +171,11 @@ export default function CTAForm() {
           </div>
         </div>
 
-        <div className="rounded-[2.4rem] bg-white/70 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur sm:p-8">
-          <div className="rounded-[1.9rem] bg-white p-5 shadow-sm ring-1 ring-zinc-200/70 sm:p-8">
+        <div className="rounded-[2.6rem] bg-white/70 p-5 shadow-[0_18px_55px_rgba(15,23,42,0.10)] ring-1 ring-white/90 backdrop-blur sm:p-8">
+          <div className="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-zinc-200/70 sm:p-10">
+            <div className="mb-10 h-px w-full bg-[#d6e0f0]" />
             <div ref={mountRef} className="overflow-hidden" />
-            <p className="mt-4 text-center text-xs text-zinc-500">
+            <p className="mt-8 text-center text-xs text-zinc-500">
               We respect your privacy. No spam.
             </p>
           </div>
